@@ -1,0 +1,39 @@
+# Ambiente virtual
+venv/
+env/
+ENV/
+.venv/
+
+# Bytecode Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Banco de dados SQLite
+*.sqlite3
+
+# Configurações do Django
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.db
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# IDEs e editores
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Arquivos de cache
+.cache/
+*.bak
+*.swp
+
+# Arquivos do FastF1 cache (se for armazenado localmente)
+cache/
