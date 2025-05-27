@@ -21,5 +21,5 @@ from dados_f1 import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", views.pagina_f1, name="pagina_f1"),
-    path('f1/', views.corrida_view),
+    path('f1/', views.last_race),
 ]

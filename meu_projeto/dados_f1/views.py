@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 import fastf1
+from django.utils import timezone
 
 fastf1.Cache.enable_cache('cache')
 
@@ -22,3 +23,40 @@ def corrida_view(request):
         'tempo_volta': str(volta_rapida['LapTime']),
         'volta': volta_rapida['LapNumber'],
     })
+
+def last_race(request):
+
+    year = timezone.now().year
+    now = timezone.now()
+
+    schedule = fastf1.get_event_schedule(year)
+
+    last_race = None
+    for _, row in schedule.iterrows():
+        if row['Session5Date'] < now:
+            last_race = row
+
+    results = []
+
+    if last_race is not None:
+        event = fastf1.get_event(year, last_race['RoundNumber'])
+        race = event.get_session('R')
+        race.load()
+
+        results_df = race.results
+
+        for _, driver in results_df.iterrows():
+            results.append({
+                'position': driver['Position'],
+                'full_name': driver['FullName'],
+                'abbreviation': driver['Abbreviation'],
+                'team': driver['TeamName'],
+                'status': driver['Status']
+            })
+
+    context = {
+        'race_name': f"{last_race['EventName']} - {last_race['Country']}" if last_race is not None else 'Race not found',
+        'results': results
+    }
+
+    return render(request, 'last_race.html', context)
