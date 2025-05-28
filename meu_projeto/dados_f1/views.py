@@ -51,9 +51,11 @@ def last_race(request):
                 'full_name': driver['FullName'],
                 'abbreviation': driver['Abbreviation'],
                 'team': driver['TeamName'],
-                'status': driver['Status']
+                'time': driver.get('Time', 'N/A'),
+                'status': driver['Status'],
+                'color': driver['TeamColor'],
+                'grid': driver['GridPosition']
             })
-
     context = {
         'race_name': f"{last_race['EventName']} - {last_race['Country']}" if last_race is not None else 'Race not found',
         'results': results
