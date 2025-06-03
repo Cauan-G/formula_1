@@ -2,12 +2,56 @@
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <title>F1</title>
 </head>
-<body>
+
+<body style="display: flex; justify-content: space-evenly;">
+    
     <h1>Test</h1>
-    <a href="/f1">F1 </a>
+
+    <a href="/f1">Ultima corrida </a>
+
+    <table border='1'>
+        <thead>
+            <tr>
+            <th>Posição</th>
+            <th>Piloto</th>
+            <th>Pontos</th>
+            <th>Equipe</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for driver in drivers %}
+            <tr>
+                <td>{{driver.position}}</td>
+                <td>{{driver.name}}</td>
+                <td>{{driver.points}}</td>
+                <td>{{driver.constructorNames}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <table border='1'>
+        <thead>
+            <tr>
+            <th>Posição</th>
+            <th>Equipe</th>
+            <th>Pontos</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for constructor in constructors %}
+            <tr>
+                <td>{{constructor.position}}</td>
+                <td>{{constructor.constructorName}}</td>
+                <td>{{constructor.points}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>

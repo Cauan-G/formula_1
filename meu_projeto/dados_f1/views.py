@@ -1,12 +1,38 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 import fastf1
+from fastf1.ergast import Ergast
 from django.utils import timezone
 
 fastf1.Cache.enable_cache('cache')
 
 def pagina_f1(request):
-    return render(request, 'home.html')
+    ergast = Ergast()
+    drivers_response = ergast.get_driver_standings(season='current')
+    constructors_response = ergast.get_constructor_standings(season='current')
+    
+    standings_df = drivers_response.content[0] 
+    standings_cf = constructors_response.content[0] 
+
+
+    drivers = []
+    for _, row in standings_df.iterrows():
+        drivers.append({
+            'position': row['position'],
+            'name': f"{row['givenName']} {row['familyName']}",
+            'points': row['points'],
+            'constructorNames': row['constructorNames'],
+        })
+    
+    constructors = []
+    for _, row in standings_cf.iterrows():
+        constructors.append({
+            'position': row['position'],
+            'points': row['points'],
+            'constructorName': row['constructorName'],
+        })
+
+    return render(request, 'home.html', {'drivers': drivers, 'constructors': constructors})
 
 def corrida_view(request):
     session = fastf1.get_session(2025, 'Monaco', 'R')
